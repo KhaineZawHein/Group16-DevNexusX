@@ -1,4 +1,9 @@
 FROM amazoncorretto:26
-COPY ./target/classes/com /tmp/com
+
+# Copy the self-contained JAR file we just built into the Docker image
+COPY target/SEMCode-1.0-SNAPSHOT-jar-with-dependencies.jar /tmp/app.jar
+
 WORKDIR /tmp
-ENTRYPOINT ["java", "com.napier.sem.App"]
+
+# Run the JAR file
+ENTRYPOINT ["java", "-jar", "app.jar"]
