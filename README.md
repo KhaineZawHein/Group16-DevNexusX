@@ -3,7 +3,7 @@
 ![Build Status (main)](https://github.com/KhaineZawHein/SEMCode/actions/workflows/maven.yml/badge.svg?branch=main)
 ![Build Status (develop)](https://github.com/KhaineZawHein/SEMCode/actions/workflows/maven.yml/badge.svg?branch=develop)
 ![License](https://img.shields.io/github/license/KhaineZawHein/SEMCode)
-
+![Release](https://img.shields.io/github/v/release/KhaineZawHein/SEMCode)
 A Java application for generating population reports from the World SQL Database.
 
 ## Requirements Met
@@ -48,3 +48,5 @@ A Java application for generating population reports from the World SQL Database
 ## Use Case Diagram
 
 ![Use Case Diagram](docs/usecase-diagram.png)
+
+
