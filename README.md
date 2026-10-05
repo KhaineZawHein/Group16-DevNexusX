@@ -1,4 +1,4 @@
-# SEMCode - Population Reporting System
+# DevNexus - Population Reporting System
 
 ![Build Status (main)](https://github.com/KhaineZawHein/SEMCode/actions/workflows/maven.yml/badge.svg?branch=main)
 ![Build Status (develop)](https://github.com/KhaineZawHein/SEMCode/actions/workflows/maven.yml/badge.svg?branch=develop)
