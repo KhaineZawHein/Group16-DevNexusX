@@ -44,3 +44,7 @@ A Java application for generating population reports from the World SQL Database
 | 30 | The population of a district. | No | |
 | 31 | The population of a city. | No | |
 | 32 | The number of people who speak Chinese, English, Hindi, Spanish, and Arabic from greatest number to smallest, including the percentage of the world population. | No | |
+
+## Use Case Diagram
+
+![Use Case Diagram](docs/usecase-diagram.png)
