@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam backgroundColor #FEFEFE
+
+actor "Organisation User\n(Data Analyst)" as User
+
+rectangle "Population Reporting System" {
+    usecase "Generate Country Reports\n(All, Top N, by Continent/Region)" as UC1
+    usecase "Generate City Reports\n(All, Top N, by Continent/Region/Country/District)" as UC2
+    usecase "Generate Capital City Reports\n(All, Top N, by Continent/Region)" as UC3
+    usecase "Generate Population Breakdowns\n(Urban vs Rural by Continent/Region/Country)" as UC4
+    usecase "View Specific Populations\n(World, Continent, Region, Country, District, City)" as UC5
+    usecase "Generate Language Speaker Reports\n(Chinese, English, Hindi, Spanish, Arabic)" as UC6
+}
+
+database "World SQL Database" as DB
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+
+UC1 ..> DB : <<queries>>
+UC2 ..> DB : <<queries>>
+UC3 ..> DB : <<queries>>
+UC4 ..> DB : <<queries>>
+UC5 ..> DB : <<queries>>
+UC6 ..> DB : <<queries>>
+
+note right of User
+  Interacts via CLI
+  or API to request
+  specific reports
+end note
+@enduml
