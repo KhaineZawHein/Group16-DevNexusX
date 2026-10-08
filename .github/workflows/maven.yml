@@ -1,26 +1,28 @@
-name: Java CI with Maven and Docker
+name: Build and test Group16-DevNexus
 
-on:
-  push:
-    branches: [ "main", "develop", "release" ]
-  pull_request:
-    branches: [ "main", "develop", "release" ]
+on: push
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - name: Set up JDK 26
-        uses: actions/setup-java@v4
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
         with:
-          java-version: '26'
+          java-version: '25'
           distribution: 'temurin'
 
       - name: Build with Maven
-        run: mvn clean package
+        run: mvn package
 
-      - name: Build Docker Image
-        run: docker build -t semcode .
+      - name: Run Docker Compose
+        run: docker compose up --build --abort-on-container-exit --exit-code-from app
+
+      - name: Clean up
+        if: always()
+        run: docker compose down -v
