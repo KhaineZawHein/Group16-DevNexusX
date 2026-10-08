@@ -1,35 +1,49 @@
-name: Java CI with Maven
+name: Java CI with Maven and Docker
 
 on:
   push:
-    branches: [ "main", "feature/view-record" ]
+    branches: [ "main", "develop", "release", "feature/view-record" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "release" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    # THIS IS THE FIX: We add a MySQL service container
+    env:
+      DB_PASSWORD: ci-test-password
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: Kzh123!@#
-          MYSQL_DATABASE: world
+          MYSQL_ROOT_PASSWORD: ci-test-password
+          MYSQL_ROOT_HOST: "%"
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping -h localhost" --health-interval=10s --health-timeout=5s --health-retries=5
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up JDK 26
-      uses: actions/setup-java@v4
-      with:
-        java-version: '26'
-        distribution: 'temurin'
-        cache: maven
-        
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Import test database
+        env:
+          MYSQL_CONTAINER_ID: ${{ job.services.mysql.id }}
+        run: |
+          docker exec -i -e MYSQL_PWD="$DB_PASSWORD" "$MYSQL_CONTAINER_ID" \
+            mysql -uroot < src/test/resources/world.sql
+
+      - name: Build with Maven
+        run: mvn --batch-mode clean package
+
+      - name: Build Docker Image
+        run: docker build -t semcode .

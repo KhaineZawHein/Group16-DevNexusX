@@ -17,7 +17,7 @@ public class CountryServiceTest {
         // CHANGE "password" to the actual password you set when installing MySQL!
         String url = "jdbc:mysql://localhost:3306/world?useSSL=false&allowPublicKeyRetrieval=true";
         String user = "root";
-        String password = "Kzh123!@#";
+        String password = System.getenv().getOrDefault("DB_PASSWORD", "Kzh123!@#");
 
         conn = DriverManager.getConnection(url, user, password);
         System.out.println("Connected to local MySQL successfully!");

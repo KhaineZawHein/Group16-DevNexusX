@@ -1,4 +1,4 @@
-FROM amazoncorretto:26
+FROM amazoncorretto:17
 
 # Copy the self-contained JAR file we just built into the Docker image
 COPY target/SEMCode-1.0-SNAPSHOT-jar-with-dependencies.jar /tmp/Main.jar
