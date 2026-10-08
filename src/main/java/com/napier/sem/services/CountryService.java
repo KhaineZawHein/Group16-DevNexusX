@@ -110,4 +110,53 @@ public class CountryService {
         }
         return countries;
     }
+    // Requirement 5: The top N populated countries in a continent
+    public List<Country> getTopNCountriesByContinent(int n, String continent) {
+        List<Country> countries = new ArrayList<>();
+        String query = "SELECT Code, Name, Continent, Region, Population, Capital " +
+                "FROM country WHERE Continent = ? ORDER BY Population DESC LIMIT ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, continent);
+            stmt.setInt(2, n);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Country c = new Country();
+                c.setCode(rs.getString("Code"));
+                c.setName(rs.getString("Name"));
+                c.setContinent(rs.getString("Continent"));
+                c.setRegion(rs.getString("Region"));
+                c.setPopulation(rs.getLong("Population"));
+                c.setCapital(rs.getString("Capital"));
+                countries.add(c);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching top N countries by continent: " + e.getMessage());
+        }
+        return countries;
+    }
+
+    // Requirement 6: The top N populated countries in a region
+    public List<Country> getTopNCountriesByRegion(int n, String region) {
+        List<Country> countries = new ArrayList<>();
+        String query = "SELECT Code, Name, Continent, Region, Population, Capital " +
+                "FROM country WHERE Region = ? ORDER BY Population DESC LIMIT ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, region);
+            stmt.setInt(2, n);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Country c = new Country();
+                c.setCode(rs.getString("Code"));
+                c.setName(rs.getString("Name"));
+                c.setContinent(rs.getString("Continent"));
+                c.setRegion(rs.getString("Region"));
+                c.setPopulation(rs.getLong("Population"));
+                c.setCapital(rs.getString("Capital"));
+                countries.add(c);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching top N countries by region: " + e.getMessage());
+        }
+        return countries;
+    }
 }
