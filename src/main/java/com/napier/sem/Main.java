@@ -20,7 +20,7 @@ public class Main {
         String dbHost = System.getenv("DB_HOST") != null ? System.getenv("DB_HOST") : "localhost";
         String url = "jdbc:mysql://" + dbHost + ":3306/world?useSSL=false&allowPublicKeyRetrieval=true";
         String user = "root";
-        String password = "Kzh123!@#";
+        String password = System.getenv().getOrDefault("DB_PASSWORD", "Kzh123!@#");
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             System.out.println("Database connected successfully!\n");
@@ -308,7 +308,8 @@ public class Main {
             }
 
         } catch (SQLException e) {
-            System.out.println("Database connection failed: " + e.getMessage());
+            System.err.println("Database connection failed: " + e.getMessage());
+            System.exit(1);
         }
     }
 
