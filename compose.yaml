@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ci-test-password
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./src/main/resources/world.sql:/docker-entrypoint-initdb.d/world.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -h 127.0.0.1 -uroot -D world -e 'SELECT COUNT(*) FROM city'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  app:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: ci-test-password
+    depends_on:
+      db:
+        condition: service_healthy
