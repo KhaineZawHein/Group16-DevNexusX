@@ -1,1 +1,9 @@
+com\napier\sem\models\Country.class
+com\napier\sem\models\Language.class
+com\napier\sem\services\CountryService.class
+com\napier\sem\services\CityService.class
+com\napier\sem\services\PopulationService.class
 com\napier\sem\Main.class
+com\napier\sem\models\City.class
+com\napier\sem\models\Population.class
+com\napier\sem\services\LanguageService.class
